@@ -1,0 +1,165 @@
+# import libraries
+
+
+import numpy as np
+import pandas as pd 
+import matplotlib.pyplot as plt 
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from scipy.stats import variation
+import scipy.stats as stats
+
+dataset=pd.read_csv(r"E:\Vaishnavi\practiced\Datasets\dataset machine lerning\Salary_Data.csv")
+
+#------------------------------------------------------------------------------------------------------------
+
+# split dependent and independent data 
+
+x = dataset.iloc[:,:-1]
+
+y = dataset.iloc[:,-1]
+
+#------------------------------------------------------------------------------------------------------------
+
+# split x and y into train and test data
+
+
+x_train, x_test, y_train, y_test = train_test_split(x,y,train_size=0.8,test_size=0.2,random_state=0)
+
+#------------------------------------------------------------------------------------------------------------
+
+# apply linear regression 
+
+regressor=LinearRegression()
+regressor.fit(x_train,y_train)
+
+y_pred = regressor.predict(x_test)        # modal predicted y values
+
+# -----------------------------------------------------------------------------------------------------------
+
+# plotted a graph  to understand actual and predicted y datapoint
+
+plt.scatter(x_test,y_test,color='red')
+plt.plot(x_train,regressor.predict(x_train),color='blue')
+plt.title('Salary vs Experience(Test Set)')
+plt.xlabel('Years of Experience')
+plt.ylabel('Salary')
+plt.show()
+
+#------------------------------------------------------------------------------------------------------------
+
+# calculating slope(m) and constant(c) in y=mx+c
+
+m_slope=regressor.coef_
+print(m_slope)
+
+intercept = regressor.intercept_
+print(intercept)
+
+#------------------------------------------------------------------------------------------------------------
+
+# bias-traing score ; varience-testing score 
+
+bias = regressor.score(x_train,y_train)
+print(bias)
+
+varience = regressor.score(x_test,y_test)
+print(varience)
+
+#------------------------------------------------------------------------------------------------------------
+
+# statistical Calculation
+
+# mean
+
+dataset.mean()
+dataset['Salary'].mean()
+dataset['YearsExperience'].mean()
+
+# median
+
+dataset.median()
+dataset['Salary'].median()
+dataset['YearsExperience'].median()
+
+# mode
+
+dataset.mode()
+dataset['Salary'].mode()
+dataset['YearsExperience'].mode()
+
+# varience
+
+dataset.var()
+dataset['Salary'].var()
+dataset['YearsExperience'].var()
+
+# standard deviation
+
+dataset.std()
+dataset['Salary'].std()
+dataset['YearsExperience'].std()
+
+# coefficient of varience
+
+
+variation(dataset.values)
+
+# correlation
+
+dataset.corr() # +ve,-ve,no correlation check
+
+dataset['Salary'].corr(dataset['YearsExperience']) # find correlation between thees attributes
+
+#skewness
+
+dataset.skew()   # skewness of entire dataframe
+
+# standard error
+
+dataset.sem()      # standard error of entire dataframe
+dataset['Salary'].sem()
+
+# z score
+
+
+dataset.apply(stats.zscore)    # zscore of entire dataframe
+
+stats.zscore(dataset['Salary'])
+
+# Degree of freedom
+
+a = dataset.shape[0]  # rows
+b= dataset.shape[1] # column
+degree_of_fredom = a-b
+print(degree_of_fredom )
+
+# ssr
+y_mean=np.mean(y)
+ssr =np.sum((y_pred-y_mean)**2)
+print(ssr)
+
+# sse
+y=y[0:6]
+sse=np.sum((y-y_pred)**2)
+print(sse)
+
+# sst
+mean_total =np.mean(dataset.values)
+sst= np.sum((dataset.values-mean_total)**2)
+print(sst)
+
+# R square
+r_square = 1- (ssr/sst)
+r_square
+
+#------------------------------------------------------------------------------------------------------------
+
+import pickle
+filename = 'linear_regression_model.pkl'
+with open (filename,'wb') as file:
+    pickle.dump(regressor,file)
+print("Model has been pickeled and saved as linear_regression_model")
+
+import os
+print(os.getcwd())
