@@ -23,10 +23,15 @@ plt.xlabel("position level")
 plt.ylabel("salary")
 plt.show()
 
+y_pred = lin_reg.predict([[6.5]])
+y_pred
+
 # this graph shows high error between actual and predicted value, hence not a good model
 # this data is nonlinear needs to use ploymodel
 
-# poly model with degree = 2 (default)
+# ----------------------------------------------------------------------------------------------------------------------------------------
+
+# poly model with degree = (default=2)(parameter tunning)
 
 from sklearn.preprocessing import PolynomialFeatures
 poly_reg = PolynomialFeatures()
@@ -68,7 +73,7 @@ plt.xlabel("position level")
 plt.ylabel("salary")
 plt.show()
 
-poly_model_pre_5 = lin_reg_5.predict(poly_reg_5.fit_transform([[6.5]]))
+poly_model_pred_5 = lin_reg_5.predict(poly_reg_5.fit_transform([[6.5]]))
 poly_model_pred_5
 
 
@@ -80,3 +85,43 @@ poly_model_pred_5
 # polynomial: y = m1(x1)^1 + m2(x2)^2 + m3(x3)^3 + m4(x4)^4 +..... mn(xn)^n + c
 # diferent variable names are used to understand that this time model is with deifferent degree, else evry other step is same
 # polynomial is just to set degrees, after that use linearregression
+#------------------------------------------------------------------------------------------------------------------------------------------
+
+# svr(support vector regressor)
+from sklearn.svm import SVR
+svr_model = SVR(kernel="poly", degree=4) 
+svr_model.fit(x,y)
+
+svr_model_pred = svr_model.predict([[6.5]])
+svr_model_pred
+
+#------------------------------------------------------------------------------------------------------------------------------------------
+
+# knn(k nearest neighbor)
+from sklearn.neighbors import KNeighborsRegressor
+knn_model = KNeighborsRegressor()
+knn_model.fit(x,y)
+ 
+knn_model_pred = knn_model.predict([[6.5]])
+print(knn_model_pred)
+
+#  ----------------------------------------------------------------------------------------------------------------------------------------
+
+# decision tree ml regression model
+from sklearn.tree import DecisionTreeRegressor
+dt_model = DecisionTreeRegressor()
+dt_model.fit(x,y)
+
+dt_model.predict = dt_model.predict([[6.5]])
+dt_model.predict
+
+# -----------------------------------------------------------------------------------------------------------------------------------------
+
+# Random Forest Model 
+from sklearn.ensemble import RandomForestRegressor
+rf_model = RandomForestRegressor(random_state=0)             #  random_state - to set seed for reproducibility
+rf_model.fit(x,y)
+
+rf_model_pred = rf_model.predict([[6.5]])
+rf_model_pred
+
