@@ -22,6 +22,13 @@ from sklearn.neighbors import KNeighborsClassifier
 classifier = KNeighborsClassifier(n_neighbors=7,weights='distance', p=1 ,algorithm = 'kd_tree' )
 classifier.fit(x_train,y_train)
 
+# SVM algorithm
+# from sklearn.svm import SVC
+# classifier = SVC()
+# classifier.fit(x_train,y_train)
+
+
+
 y_pred = classifier.predict(x_test)
 
 bias = classifier.score(x_train,y_train)
